@@ -1,0 +1,42 @@
+.header {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .restaurant-container {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  
+  .restaurant-details {
+    flex: 1;
+  }
+  
+  .restaurant-image {
+    flex: 1;
+  }
+  
+  .image-container {
+    position: relative;
+  }
+  
+  .image-container img {
+    width: 100px;
+    height: auto;
+  }
+  .left-image {
+    float: left;
+    margin-right: 10px; /* Adjust as needed */
+  }
+  
+  
+  .image-text {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(10px, -50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px;
+  }
+  

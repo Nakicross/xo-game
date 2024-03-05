@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Header from '../pages/components/restaurant/header';
+import Footer from '../pages/components/restaurant/footer';
 
 // Define the interface for restaurant data
 interface Restaurant {
@@ -22,28 +24,45 @@ const Restaurant = () => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null); // Updated error state to allow null values
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
-        const { data } = await axios.get('http://localhost:4000/api/restaurants');
+        setLoading(true); // Start loading
+        setError(null); // Clear any previous errors
+
+        let url = 'http://localhost:4000/api/restaurants';
+        if (searchQuery) {
+          // If search query is not empty, send a POST request to search for restaurants
+          url = 'http://localhost:4000/api/searchrestaurants';
+        }
+        const { data } = await axios.post(url, { query: searchQuery }); // Send search query in the request body
+        console.log(data)
         setRestaurants(data);
       } catch (error) {
         setError('Error fetching restaurants data');
       } finally {
-        setLoading(false);
+        setLoading(false); // Finish loading regardless of success or failure
       }
     };
 
     fetchRestaurants();
-  }, []);
+  }, [searchQuery]);
+
+  const handleSearch = () => {
+    // Trigger fetching restaurants with new search query
+    setLoading(true);
+    setError(null);
+    // Automatically fetches data due to useEffect dependency on searchQuery
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="page-container">
-      <h1 className="header">Restaurants</h1>
+      <Header onSearch={setSearchQuery} />
       {restaurants.map((restaurant, index) => (
         <div key={index} className="restaurant-container">
           <div className="content-container">
@@ -51,7 +70,7 @@ const Restaurant = () => {
               {restaurant.photos?.map((photo, photoIndex) => (
                 <div key={photoIndex} className="image-container">
                   <img src={photo.url} alt="Restaurant" className="left-image" />
-                  {/* Additional text here */}
+               
                 </div>
               ))}
             </div>
@@ -65,6 +84,7 @@ const Restaurant = () => {
           </div>
         </div>
       ))}
+      <Footer />
     </div>
   );
   

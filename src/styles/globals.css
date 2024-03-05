@@ -99,3 +99,30 @@ body {
 .left-image {
   max-width: 100%; /* Ensure image fits within container */
 }
+
+
+
+
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-container input[type="text"] {
+  padding: 8px;
+  color: black; /* Set font color to black */
+  margin-right: 8px;
+}
+
+.search-container button {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-container button:hover {
+  background-color: #45a049;
+}
